@@ -201,7 +201,15 @@
                 headerRow.appendChild(th);
             }
             
+            // 定义需要过滤的关键词
+            const filterKeywords = ['cena', 'koszt', 'wartość', '万', 'yuan', 'zł', 'pln', 'price'];
+            
             for (const [groupName, group] of Object.entries(data)) {
+                // 跳过包含价格关键词的组
+                if (filterKeywords.some(keyword => groupName.toLowerCase().includes(keyword.toLowerCase()))) {
+                    continue;
+                }
+
                 // 添加组标题
                 const groupRow = document.createElement('tr');
                 groupRow.className = 'group-header';
@@ -210,6 +218,16 @@
 
                 // 添加组内参数
                 for (const [paramName, paramValue] of Object.entries(group)) {
+                    // 跳过包含价格关键词的参数
+                    if (filterKeywords.some(keyword => paramName.toLowerCase().includes(keyword.toLowerCase()))) {
+                        continue;
+                    }
+
+                    // 如果参数值是数字并且大于10000，可能是价格，跳过
+                    if (typeof paramValue === 'string' && !isNaN(paramValue) && parseFloat(paramValue) > 10000) {
+                        continue;
+                    }
+
                     const row = document.createElement('tr');
                     
                     // 参数名称列
@@ -223,7 +241,12 @@
                         for (let i = 0; i < modelCount; i++) {
                             const valueCell = document.createElement('td');
                             const value = paramValue[i];
-                            valueCell.textContent = Array.isArray(value) ? value.join(', ') : (value || '-');
+                            // 跳过可能是价格的数值
+                            if (typeof value === 'string' && !isNaN(value) && parseFloat(value) > 10000) {
+                                valueCell.textContent = '-';
+                            } else {
+                                valueCell.textContent = Array.isArray(value) ? value.join(', ') : (value || '-');
+                            }
                             row.appendChild(valueCell);
                         }
                     } else {
