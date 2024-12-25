@@ -3,420 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porównanie modeli samochodów</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>BYD Song PLUS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #141414;
-            --secondary: #333333;
-            --accent: #e60012;
-            --text: #ffffff;
-            --text-secondary: #999999;
-            --background: #000000;
-            --surface: #1a1a1a;
+            --primary-gradient: linear-gradient(135deg, #1a237e, #0d47a1);
+            --secondary-gradient: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            --accent-gradient: linear-gradient(135deg, #2196f3, #1976d2);
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --background: #ffffff;
+            --card-background: #ffffff;
+            --border-radius: 12px;
+            --spacing: 24px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
             background: var(--background);
-            color: var(--text);
+            color: var(--text-primary);
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        .main-container {
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing);
         }
 
-        .carousel-section {
+        header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: var(--spacing);
+            margin-bottom: var(--spacing);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .carousel {
             position: relative;
             width: 100%;
-            height: 80vh;
-            min-height: 600px;
-            background: var(--background);
+            height: 400px;
+            margin-bottom: var(--spacing);
+            border-radius: var(--border-radius);
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
-        .carousel-container {
-            height: 100%;
-            background: var(--background);
-        }
-
-        .carousel-inner {
-            height: 100%;
-        }
-
-        .carousel-item {
-            height: 100%;
-            background: var(--background);
-        }
-
-        .carousel-item img {
+        .carousel img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 80px;
-            height: 80px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
+            position: absolute;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .carousel-section:hover .carousel-control-prev,
-        .carousel-section:hover .carousel-control-next {
+        .carousel img.active {
             opacity: 1;
         }
 
-        .carousel-indicators {
+        .carousel-controls {
             position: absolute;
-            bottom: 40px;
-            margin: 0;
-            padding: 0 20px;
-            width: auto;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 20px;
+            display: flex;
+            gap: 10px;
         }
 
-        .carousel-indicators button {
-            width: 10px;
-            height: 10px;
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            margin: 0 5px;
-            background-color: var(--text-secondary);
-            opacity: 0.5;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        .carousel-indicators button.active {
-            background-color: var(--text);
-            opacity: 1;
-            transform: scale(1.2);
+        .carousel-dot.active {
+            background: white;
         }
 
-        .specs-section {
-            background: var(--surface);
-            padding: 60px 0;
+        .data-section {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: var(--spacing);
+            margin-bottom: var(--spacing);
+            box-shadow: var(--shadow);
         }
 
-        .specs-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-
-        .specs-title {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            text-align: center;
-            color: var(--text);
-        }
-
-        .specs-table {
-            background: transparent;
-            border-radius: 0;
-            overflow: hidden;
-        }
-
-        .table {
-            margin: 0;
-            color: var(--text);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .table th,
-        .table td {
-            padding: 20px;
-            vertical-align: middle;
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .param-name {
+        .data-section h2 {
+            font-size: 1.5rem;
             font-weight: 500;
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.05);
-            width: 300px;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
         }
 
-        .model-header {
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing);
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
             font-weight: 500;
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.02);
-            text-align: center;
-            min-width: 200px;
-            position: relative;
+            color: var(--text-secondary);
         }
 
-        .model-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: var(--accent);
-        }
-
-        .group-header {
-            background: rgba(230, 0, 18, 0.1);
-            color: var(--text);
-            font-weight: 500;
-            padding: 15px 20px;
-        }
-
-        .group-header td {
-            position: relative;
-        }
-
-        .group-header td::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 20px;
-            background: var(--accent);
-        }
-
-        .table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
+        .data-value {
+            font-weight: 400;
+            color: var(--text-primary);
         }
 
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: var(--spacing);
             color: var(--text-secondary);
         }
 
-        .loading .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            margin-bottom: 1rem;
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: var(--spacing);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing);
         }
 
         @media (max-width: 768px) {
-            .carousel-section {
-                height: 50vh;
-                min-height: 400px;
+            .container {
+                padding: calc(var(--spacing) / 2);
             }
 
-            .specs-container {
-                padding: 0 15px;
+            h1 {
+                font-size: 2rem;
             }
 
-            .param-name {
-                width: 200px;
+            .carousel {
+                height: 300px;
             }
 
-            .model-header {
-                min-width: 150px;
+            .data-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <section class="carousel-section">
-            <div id="carCarousel" class="carousel slide carousel-container" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="2"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="3"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="4"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="5"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="6"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="7"></button>
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="8"></button>
-                </div>
-                <div class="carousel-inner" id="carouselInner">
-                    <div class="carousel-item active">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <div class="spinner-border text-light" role="status"></div>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                    <span class="visually-hidden">Poprzedni</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                    <span class="visually-hidden">Następny</span>
-                </button>
-            </div>
-        </section>
+    <div class="container">
+        <header>
+            <h1>BYD Song PLUS</h1>
+        </header>
 
-        <section class="specs-section">
-            <div class="specs-container">
-                <h2 class="specs-title">Specyfikacja techniczna</h2>
-                <div class="specs-table">
-                    <table class="table">
-                        <thead>
-                            <tr id="modelHeaders">
-                                <th class="param-name">Parametry</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dataTable">
-                            <tr>
-                                <td colspan="6" class="loading">
-                                    <div class="spinner-border"></div>
-                                    <div>Ładowanie danych...</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        <div class="carousel">
+            <div class="carousel-controls"></div>
+        </div>
+
+        <div id="data-container"></div>
     </div>
 
     <script>
-        // 更新轮播图
-        function updateCarousel() {
-            const carouselInner = document.getElementById('carouselInner');
-            carouselInner.innerHTML = '';
-            
-            // 添加9张图片
-            for (let i = 1; i <= 9; i++) {
-                const div = document.createElement('div');
-                div.className = `carousel-item${i === 1 ? ' active' : ''}`;
-                div.innerHTML = `<img src="pic/50586_${i}.jpg" class="d-block" alt="Model ${i}" onerror="this.style.display='none'">`;
-                carouselInner.appendChild(div);
+        // 加载和显示图片
+        async function loadImages() {
+            const carousel = document.querySelector('.carousel');
+            const controls = document.querySelector('.carousel-controls');
+            const imageCount = 10;
+            let activeIndex = 0;
+
+            for (let i = 1; i <= imageCount; i++) {
+                const img = document.createElement('img');
+                img.src = `pic/50586_${i}.jpg`;
+                img.alt = `Car image ${i}`;
+                if (i === 1) img.classList.add('active');
+                carousel.appendChild(img);
+
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === 1) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    document.querySelectorAll('.carousel img').forEach(img => img.classList.remove('active'));
+                    document.querySelectorAll('.carousel-dot').forEach(dot => dot.classList.remove('active'));
+                    carousel.children[i-1].classList.add('active');
+                    dot.classList.add('active');
+                    activeIndex = i - 1;
+                });
+                controls.appendChild(dot);
             }
+
+            // 自动轮播
+            setInterval(() => {
+                activeIndex = (activeIndex + 1) % imageCount;
+                document.querySelectorAll('.carousel img').forEach(img => img.classList.remove('active'));
+                document.querySelectorAll('.carousel-dot').forEach(dot => dot.classList.remove('active'));
+                carousel.children[activeIndex].classList.add('active');
+                controls.children[activeIndex].classList.add('active');
+            }, 5000);
         }
 
-        // 加载数据
+        // 加载和显示数据
         async function loadData() {
-            const tableBody = document.getElementById('dataTable');
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="loading">
-                        <div class="spinner-border"></div>
-                        <div>Ładowanie danych...</div>
-                    </td>
-                </tr>
-            `;
-
             try {
-                const response = await fetch(`./车型_50586_数据_波兰语.json`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                const response = await fetch('车型_50586_数据_波兰语.json');
                 const data = await response.json();
                 displayData(data);
             } catch (error) {
-                console.error('Błąd ładowania danych:', error);
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="error-message">
-                            <div>Błąd ładowania danych: ${error.message}</div>
-                            <div>Proszę sprawdzić, czy plik JSON istnieje i jest dostępny.</div>
-                        </td>
-                    </tr>
+                console.error('Error loading data:', error);
+                document.getElementById('data-container').innerHTML = `
+                    <div class="error">
+                        Error loading data. Please try again later.
+                    </div>
                 `;
             }
         }
 
         // 显示数据
         function displayData(data) {
-            const tableBody = document.getElementById('dataTable');
-            const headerRow = document.getElementById('modelHeaders');
-            tableBody.innerHTML = '';
-            
-            while (headerRow.children.length > 1) {
-                headerRow.removeChild(headerRow.lastChild);
-            }
+            const container = document.getElementById('data-container');
+            container.innerHTML = '';
 
-            let modelCount = 0;
-            for (const group of Object.values(data)) {
-                for (const param of Object.values(group)) {
-                    if (typeof param === 'object') {
-                        modelCount = Math.max(modelCount, Object.keys(param).length);
-                        break;
-                    }
-                }
-                if (modelCount > 0) break;
-            }
-
-            for (let i = 0; i < modelCount; i++) {
-                const th = document.createElement('th');
-                th.className = 'model-header';
-                th.textContent = `Model ${i + 1}`;
-                headerRow.appendChild(th);
-            }
-            
-            const filterKeywords = ['cena', 'koszt', 'wartość', '万', 'yuan', 'zł', 'pln', 'price'];
-            
-            for (const [groupName, group] of Object.entries(data)) {
-                if (filterKeywords.some(keyword => groupName.toLowerCase().includes(keyword.toLowerCase()))) {
-                    continue;
-                }
-
-                const groupRow = document.createElement('tr');
-                groupRow.className = 'group-header';
-                groupRow.innerHTML = `<td colspan="${modelCount + 1}">${groupName}</td>`;
-                tableBody.appendChild(groupRow);
-
-                for (const [paramName, paramValue] of Object.entries(group)) {
-                    if (filterKeywords.some(keyword => paramName.toLowerCase().includes(keyword.toLowerCase()))) {
-                        continue;
-                    }
-
-                    if (typeof paramValue === 'string' && !isNaN(paramValue) && parseFloat(paramValue) > 10000) {
-                        continue;
-                    }
-
-                    const row = document.createElement('tr');
-                    
-                    const nameCell = document.createElement('td');
-                    nameCell.className = 'param-name';
-                    nameCell.textContent = paramName;
-                    row.appendChild(nameCell);
-
-                    if (typeof paramValue === 'object') {
-                        for (let i = 0; i < modelCount; i++) {
-                            const valueCell = document.createElement('td');
-                            const value = paramValue[i];
-                            if (typeof value === 'string' && !isNaN(value) && parseFloat(value) > 10000) {
-                                valueCell.textContent = '-';
-                            } else {
-                                valueCell.textContent = Array.isArray(value) ? value.join(', ') : (value || '-');
-                            }
-                            row.appendChild(valueCell);
-                        }
-                    } else {
-                        const valueCell = document.createElement('td');
-                        valueCell.colSpan = modelCount;
-                        valueCell.textContent = paramValue;
-                        row.appendChild(valueCell);
-                    }
-
-                    tableBody.appendChild(row);
-                }
+            // 遍历每个主要部分
+            for (const [section, content] of Object.entries(data)) {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'data-section';
+                sectionElement.innerHTML = `
+                    <h2>${section}</h2>
+                    <div class="data-grid">
+                        ${Object.entries(content).map(([key, value]) => `
+                            <div class="data-item">
+                                <span class="data-label">${key}</span>
+                                <span class="data-value">${value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(sectionElement);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCarousel();
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            loadImages();
             loadData();
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 
