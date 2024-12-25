@@ -316,10 +316,22 @@
                 // 添加参数行
                 for (const [key, value] of Object.entries(content)) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="param-name">${key}</td>
-                        <td class="param-value">${value}</td>
-                    `;
+                    
+                    // 如果值是对象（包含多个车型的数据）
+                    if (typeof value === 'object' && value !== null) {
+                        // 只显示第一个车型的数据
+                        const firstValue = Object.values(value)[0];
+                        row.innerHTML = `
+                            <td class="param-name">${key}</td>
+                            <td class="param-value">${firstValue || '-'}</td>
+                        `;
+                    } else {
+                        row.innerHTML = `
+                            <td class="param-name">${key}</td>
+                            <td class="param-value">${value || '-'}</td>
+                        `;
+                    }
+                    
                     tableBody.appendChild(row);
                 }
             }
